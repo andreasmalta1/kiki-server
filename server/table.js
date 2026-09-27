@@ -8,7 +8,7 @@ const createEmployeeTable = async () => {
         return error
       }
       return results
-    }
+    },
   )
 }
 
@@ -19,7 +19,7 @@ const createDocketTable = async () => {
       if (error) {
         return error
       }
-    }
+    },
   )
 }
 
@@ -30,8 +30,53 @@ const createWorksTable = async () => {
       if (error) {
         return error
       }
-    }
+    },
   )
 }
 
-export { createEmployeeTable, createDocketTable, createWorksTable }
+const createWorkOrdersTable = async () => {
+  pool.query(
+    `CREATE TABLE IF NOT EXISTS work_orders (
+      work_order_no    VARCHAR(50) PRIMARY KEY,
+      equipment        VARCHAR(100),
+      date_start       DATE,
+      date_finish      DATE,
+      description      TEXT,
+      status           VARCHAR(50),
+      paperwork_status VARCHAR(50),
+      cost             NUMERIC(10,2),
+      po_number        VARCHAR(50),
+      invoice_number   VARCHAR(50),
+      works            TEXT,
+      service_repairs  TEXT,
+      requested_by     VARCHAR(100)
+    )`,
+    (error) => {
+      if (error) return error
+    },
+  )
+}
+
+const createMkItemsTable = async () => {
+  pool.query(
+    `CREATE TABLE IF NOT EXISTS mk_items (
+      id               VARCHAR(50) PRIMARY KEY,
+      description      VARCHAR(1000),
+      long_description VARCHAR(2000),
+      order_unit       VARCHAR(20),
+      cost             NUMERIC(10,2),
+      type             VARCHAR(20)
+    )`,
+    (error) => {
+      if (error) return error
+    },
+  )
+}
+
+export {
+  createEmployeeTable,
+  createDocketTable,
+  createWorksTable,
+  createWorkOrdersTable,
+  createMkItemsTable,
+}
